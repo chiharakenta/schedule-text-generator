@@ -8,5 +8,5 @@ export type CalendarDate = {
 export type CalendarMonth = {
   year: number;
   month: number;
-  weeks: [CalendarDate[], CalendarDate[], CalendarDate[], CalendarDate[], CalendarDate[]];
+  weeks: [CalendarDate[], CalendarDate[], CalendarDate[], CalendarDate[], CalendarDate[], CalendarDate[]];
 };

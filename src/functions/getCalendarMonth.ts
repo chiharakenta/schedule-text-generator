@@ -7,8 +7,8 @@ const isHoliday = (date: Date) => date.getDay() === 6 || date.getDay() === 0;
 const getCalendarMonth = (today: Date) => {
   const calendarMonth: CalendarMonth = {
     year: today.getFullYear(),
-    month: today.getMonth() + 1,
-    weeks: [[], [], [], [], []]
+    month: today.getMonth(),
+    weeks: [[], [], [], [], [], []]
   };
   const calendarDates: CalendarDate[] = [];
 

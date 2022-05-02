@@ -1,14 +1,30 @@
 import React from 'react';
 import { CalendarMonth } from '../types/CalendarMonth';
+import Week from './Week';
 
-const Calendar: React.FC<{ calendar: CalendarMonth }> = (props) => {
-  const { calendar } = props;
+type Props = {
+  calendar: CalendarMonth;
+  getNextCalendar: React.MouseEventHandler<HTMLButtonElement>;
+  getPrevCalendar: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+const Calendar: React.FC<Props> = (props) => {
+  const { calendar, getNextCalendar, getPrevCalendar } = props;
+  const weekKey = `${String(calendar.year)}-${String(calendar.month)}-`;
 
   return (
     <div id="calendar">
       <h1>
-        {calendar.year}年 {calendar.month}月
+        {calendar.year}年 {calendar.month + 1}月
       </h1>
+      <div className="next-prev-button">
+        <button type="button" onClick={getPrevCalendar}>
+          &lt;
+        </button>
+        <button type="button" onClick={getNextCalendar}>
+          &gt;
+        </button>
+      </div>
       <table>
         <tbody>
           <tr>
@@ -20,12 +36,8 @@ const Calendar: React.FC<{ calendar: CalendarMonth }> = (props) => {
             <th>金</th>
             <th>土</th>
           </tr>
-          {calendar.weeks.map((week) => (
-            <tr>
-              {week.map((date) => (
-                <td>{date.date.getDate()}</td>
-              ))}
-            </tr>
+          {calendar.weeks.map((week, index) => (
+            <Week key={weekKey + String(index)} week={week} />
           ))}
         </tbody>
       </table>
