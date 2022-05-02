@@ -1,12 +1,14 @@
 import React from 'react';
 import { CalendarDate } from '../types/CalendarMonth';
 
+import Date from './Date';
+
 const Week: React.FC<{ week: CalendarDate[] }> = (props) => {
   const { week } = props;
   return (
     <tr>
       {week.map((date) => (
-        <td key={date.date.getTime()}>{date.date.getDate()}</td>
+        <Date key={date.date.getTime()} date={date} />
       ))}
     </tr>
   );
