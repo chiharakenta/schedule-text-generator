@@ -59,10 +59,27 @@
       }
     ],
     "react/react-in-jsx-scope": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ],
     "no-void": [
       "error",
       {
         "allowAsStatement": true
+      }
+    ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
       }
     ],
     "comma-dangle": [
