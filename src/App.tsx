@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import Calendar from './components/Calendar';
 import getCalendarMonth from './functions/getCalendarMonth';
 

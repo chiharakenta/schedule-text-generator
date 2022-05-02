@@ -1,14 +1,25 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { CalendarDate } from '../types/CalendarMonth';
 
 const Date: React.FC<{ date: CalendarDate }> = (props) => {
   const { date } = props;
   const style = {
-    color: getColor(date.disabled, date.isHoliday)
+    base: css({
+      color: getColor(date.disabled, date.isHoliday),
+      cursor: 'pointer',
+      outline: '1px solid #dddddd',
+      paddingTop: '1rem',
+      paddingBottom: '1rem'
+    }),
+    activeDate: css({
+      backgroundColor: '#D65E72',
+      color: '#fff'
+    })
   };
 
   return (
-    <td style={style} key={date.date.getTime()}>
+    <td css={[style.base, date.active ? style.activeDate : '']} key={date.date.getTime()}>
       {date.date.getDate()}
     </td>
   );
