@@ -5,8 +5,10 @@ export type CalendarDate = {
   isHoliday: boolean;
 };
 
+export type CalendarWeek = CalendarDate[][];
+
 export type CalendarMonth = {
   year: number;
   month: number;
-  weeks: [CalendarDate[], CalendarDate[], CalendarDate[], CalendarDate[], CalendarDate[], CalendarDate[]];
+  weeks: CalendarWeek;
 };

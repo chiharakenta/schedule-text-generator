@@ -1,17 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { css } from '@emotion/react';
-import { CalendarMonth } from '../types/CalendarMonth';
 import Week from './Week';
+import getCalendarMonth from '../functions/getCalendarMonth';
+import { CalendarMonth } from '../types/CalendarMonth';
 
-type Props = {
-  calendar: CalendarMonth;
-  getNextCalendar: React.MouseEventHandler<HTMLButtonElement>;
-  getPrevCalendar: React.MouseEventHandler<HTMLButtonElement>;
-};
+const Calendar: React.FC = () => {
+  const currentMonth = getCalendarMonth(new Date());
+  const [calendar, setCalendar] = useState(currentMonth);
 
-const Calendar: React.FC<Props> = (props) => {
-  const { calendar, getNextCalendar, getPrevCalendar } = props;
+  const getPrevCalendar: React.MouseEventHandler<HTMLButtonElement> = () => {
+    const prevMonthFirstDate = new Date(calendar.year, calendar.month - 1, 1);
+    const prevCalendar = getCalendarMonth(prevMonthFirstDate);
+    setCalendar(prevCalendar);
+  };
+
+  const getNextCalendar: React.MouseEventHandler<HTMLButtonElement> = () => {
+    const nextMonthFirstDate = new Date(calendar.year, calendar.month + 1, 1);
+    const nextCalendar = getCalendarMonth(nextMonthFirstDate);
+    setCalendar(nextCalendar);
+  };
+
+  const selectDate: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    const newCalendar: CalendarMonth = {
+      year: calendar.year,
+      month: calendar.month,
+      weeks: calendar.weeks.slice()
+    };
+
+    for (let i = 0; i < newCalendar.weeks.length; i++) {
+      for (let j = 0; j < newCalendar.weeks[i].length; j++) {
+        const dateTime = newCalendar.weeks[i][j].date.getTime();
+        if (String(dateTime) === event.currentTarget.dataset.timestamp) {
+          newCalendar.weeks[i][j].active = !newCalendar.weeks[i][j].active;
+          setCalendar(newCalendar);
+          return;
+        }
+      }
+    }
+  };
+
   const weekKey = `${String(calendar.year)}-${String(calendar.month)}-`;
 
   const style = {
@@ -65,7 +93,7 @@ const Calendar: React.FC<Props> = (props) => {
             <th css={style.tableHeading}>土</th>
           </tr>
           {calendar.weeks.map((week, index) => (
-            <Week key={weekKey + String(index)} week={week} />
+            <Week key={weekKey + String(index)} week={week} onClick={selectDate} />
           ))}
         </tbody>
       </table>
