@@ -1,4 +1,4 @@
-import { CalendarDate, CalendarMonth } from '../types/CalendarMonth';
+import { CalendarDate, CalendarMonth } from '../types/Calendar';
 
 const isSunday = (date: Date) => date.getDay() === 0;
 const isSaturday = (date: Date) => date.getDay() === 6;

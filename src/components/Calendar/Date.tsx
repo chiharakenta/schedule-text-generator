@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { CalendarDate } from '../types/CalendarMonth';
+import { CalendarDate } from '../../types/Calendar';
 
 const Date: React.FC<{ date: CalendarDate; onClick: React.MouseEventHandler<HTMLButtonElement> }> = (props) => {
   const { date, onClick } = props;

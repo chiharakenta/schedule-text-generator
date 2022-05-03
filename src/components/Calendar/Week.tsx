@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarDate } from '../types/CalendarMonth';
+import { CalendarDate } from '../../types/Calendar';
 
 import Date from './Date';
 
