@@ -6,24 +6,25 @@ import getCalendarMonth from 'functions/getCalendarMonth';
 import { CalendarMonth } from 'types/Calendar';
 
 type Props = {
+  schedules: Date[];
   createSchedule: (date: Date) => void;
   deleteSchedule: (date: Date) => void;
 };
 
 const Calendar: React.FC<Props> = (props) => {
-  const { createSchedule, deleteSchedule } = props;
+  const { schedules, createSchedule, deleteSchedule } = props;
   const currentMonth = getCalendarMonth(new Date());
   const [calendar, setCalendar] = useState(currentMonth);
 
   const getPrevCalendar: React.MouseEventHandler<HTMLButtonElement> = () => {
     const prevMonthFirstDate = new Date(calendar.year, calendar.month - 1, 1);
-    const prevCalendar = getCalendarMonth(prevMonthFirstDate);
+    const prevCalendar = getCalendarMonth(prevMonthFirstDate, schedules);
     setCalendar(prevCalendar);
   };
 
   const getNextCalendar: React.MouseEventHandler<HTMLButtonElement> = () => {
     const nextMonthFirstDate = new Date(calendar.year, calendar.month + 1, 1);
-    const nextCalendar = getCalendarMonth(nextMonthFirstDate);
+    const nextCalendar = getCalendarMonth(nextMonthFirstDate, schedules);
     setCalendar(nextCalendar);
   };
 

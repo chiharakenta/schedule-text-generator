@@ -59,7 +59,7 @@ const App: React.FC = () => {
           調整さんの「日にち候補」に貼り付けてください。
         </Container>
       </Alert>
-      <Calendar createSchedule={createSchedule} deleteSchedule={deleteSchedule} />
+      <Calendar schedules={schedules} createSchedule={createSchedule} deleteSchedule={deleteSchedule} />
       <ScheduleText text={scheduleText} setAlertShow={setShow} />
     </div>
   );

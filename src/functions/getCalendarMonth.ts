@@ -4,8 +4,21 @@ import JapaneseHolidays from 'japanese-holidays';
 const isSunday = (date: Date) => date.getDay() === 0;
 const isSaturday = (date: Date) => date.getDay() === 6;
 const isHoliday = (date: Date) => isSaturday(date) || isSunday(date) || Boolean(JapaneseHolidays.isHoliday(date));
+const isSelected = (currentDate: Date, schedules: Date[]) => {
+  const haveSchedules = Boolean(schedules.length);
+  if (!haveSchedules) return false;
+  const selectedDates = schedules.filter(
+    (schedule) => schedule.getFullYear() === currentDate.getFullYear() && schedule.getMonth() === currentDate.getMonth()
+  );
+  for (let i = 0; i < selectedDates.length; i++) {
+    if (selectedDates[i].getTime() === currentDate.getTime()) {
+      return true;
+    }
+  }
+  return false;
+};
 
-const getCalendarMonth = (today: Date) => {
+const getCalendarMonth = (today: Date, schedules: Date[] = []) => {
   const calendarMonth: CalendarMonth = {
     year: today.getFullYear(),
     month: today.getMonth(),
@@ -19,12 +32,12 @@ const getCalendarMonth = (today: Date) => {
   const currentYear: number = firstOfMonth.getFullYear();
   const currentMonth: number = firstOfMonth.getMonth();
   for (let i = firstOfMonth.getDate(); i <= lastOfMonth.getDate(); i++) {
-    const currentDay = new Date(currentYear, currentMonth, i);
+    const currentDate = new Date(currentYear, currentMonth, i);
     calendarDates.push({
-      date: currentDay,
-      active: false,
+      date: currentDate,
+      active: isSelected(currentDate, schedules),
       disabled: false,
-      isHoliday: isHoliday(currentDay)
+      isHoliday: isHoliday(currentDate)
     });
   }
 
@@ -33,12 +46,12 @@ const getCalendarMonth = (today: Date) => {
     const yesterday = new Date(firstOfMonth.getTime());
     for (let i = firstOfMonth.getDay(); i > 0; i--) {
       yesterday.setDate(yesterday.getDate() - 1);
-      const currentDay = new Date(yesterday.getTime());
+      const currentDate = new Date(yesterday.getTime());
       calendarDates.unshift({
-        date: currentDay,
-        active: false,
+        date: currentDate,
+        active: isSelected(currentDate, schedules),
         disabled: true,
-        isHoliday: isHoliday(currentDay)
+        isHoliday: isHoliday(currentDate)
       });
     }
   }
@@ -48,12 +61,12 @@ const getCalendarMonth = (today: Date) => {
     const tomorrow = new Date(lastOfMonth.getTime());
     for (let i = lastOfMonth.getDay(); i < 6; i++) {
       tomorrow.setDate(tomorrow.getDate() + 1);
-      const currentDay = new Date(tomorrow.getTime());
+      const currentDate = new Date(tomorrow.getTime());
       calendarDates.push({
-        date: currentDay,
-        active: false,
+        date: currentDate,
+        active: isSelected(currentDate, schedules),
         disabled: true,
-        isHoliday: isHoliday(currentDay)
+        isHoliday: isHoliday(currentDate)
       });
     }
   }
