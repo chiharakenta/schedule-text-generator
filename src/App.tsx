@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Alert, Container } from 'react-bootstrap';
 
 import Calendar from 'components/Calendar/index';
 import ScheduleText from 'components/ScheduleText';
+import { css } from '@emotion/react';
 
 const App: React.FC = () => {
   const [schedules, setSchedules] = useState<Date[]>([]);
   const [scheduleText, setScheduleText] = useState('');
+  const [show, setShow] = useState(false);
 
   const createSchedule = (date: Date) => {
     const newSchedules = schedules.slice();
@@ -49,8 +52,15 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
+      <Alert variant="success" show={show}>
+        <Container css={css({ maxWidth: '600px' })}>
+          スケジュールをコピーしました
+          <br />
+          調整さんの「日にち候補」に貼り付けてください。
+        </Container>
+      </Alert>
       <Calendar createSchedule={createSchedule} deleteSchedule={deleteSchedule} />
-      <ScheduleText text={scheduleText} />
+      <ScheduleText text={scheduleText} setAlertShow={setShow} />
     </div>
   );
 };

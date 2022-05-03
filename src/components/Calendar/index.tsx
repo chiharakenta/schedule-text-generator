@@ -54,7 +54,7 @@ const Calendar: React.FC<Props> = (props) => {
 
   const weekKey = `${String(calendar.year)}-${String(calendar.month)}-`;
 
-  const style = {
+  const styles = {
     container: {
       marginRight: 'auto',
       marginLeft: 'auto',
@@ -81,28 +81,28 @@ const Calendar: React.FC<Props> = (props) => {
   };
 
   return (
-    <Container id="calendar" css={style.container}>
+    <Container id="calendar" css={styles.container}>
       <h1>
         {calendar.year}年 {calendar.month + 1}月
       </h1>
-      <div css={style.buttonWrapper}>
-        <Button variant="outline-secondary" css={style.button} type="button" onClick={getPrevCalendar}>
+      <div css={styles.buttonWrapper}>
+        <Button variant="outline-secondary" css={styles.button} type="button" onClick={getPrevCalendar}>
           &lt;
         </Button>
-        <Button variant="outline-secondary" css={style.button} type="button" onClick={getNextCalendar}>
+        <Button variant="outline-secondary" css={styles.button} type="button" onClick={getNextCalendar}>
           &gt;
         </Button>
       </div>
-      <table css={style.table}>
+      <table css={styles.table}>
         <tbody>
           <tr>
-            <th css={style.tableHeading}>日</th>
-            <th css={style.tableHeading}>月</th>
-            <th css={style.tableHeading}>火</th>
-            <th css={style.tableHeading}>水</th>
-            <th css={style.tableHeading}>木</th>
-            <th css={style.tableHeading}>金</th>
-            <th css={style.tableHeading}>土</th>
+            <th css={styles.tableHeading}>日</th>
+            <th css={styles.tableHeading}>月</th>
+            <th css={styles.tableHeading}>火</th>
+            <th css={styles.tableHeading}>水</th>
+            <th css={styles.tableHeading}>木</th>
+            <th css={styles.tableHeading}>金</th>
+            <th css={styles.tableHeading}>土</th>
           </tr>
           {calendar.weeks.map((week, index) => (
             <Week key={weekKey + String(index)} week={week} onClick={selectDate} />

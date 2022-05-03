@@ -4,7 +4,7 @@ import { CalendarDate } from 'types/Calendar';
 
 const Date: React.FC<{ date: CalendarDate; onClick: React.MouseEventHandler<HTMLButtonElement> }> = (props) => {
   const { date, onClick } = props;
-  const style = {
+  const styles = {
     base: css({
       color: getColor(date.disabled, date.isHoliday),
       outline: '1px solid #dddddd'
@@ -26,9 +26,9 @@ const Date: React.FC<{ date: CalendarDate; onClick: React.MouseEventHandler<HTML
   };
 
   return (
-    <td css={[style.base, date.active ? style.activeDate : '']}>
+    <td css={[styles.base, date.active ? styles.activeDate : '']}>
       <button
-        css={style.button}
+        css={styles.button}
         data-timestamp={date.date.getTime()}
         onClick={onClick}
         type="button"

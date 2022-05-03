@@ -2,21 +2,35 @@ import { css } from '@emotion/react';
 import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 
-const ScheduleText: React.FC<{ text: string }> = (props) => {
-  const { text } = props;
+type Props = {
+  text: string;
+  setAlertShow: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const ScheduleText: React.FC<Props> = (props) => {
+  const { text, setAlertShow } = props;
+
+  const copyScheduleText: React.MouseEventHandler<HTMLButtonElement> = () => {
+    void navigator.clipboard.writeText(text).then(() => {
+      setAlertShow(true);
+      setTimeout(() => {
+        window.open('https://chouseisan.com/#tab2', '_blank');
+      }, 3500);
+    });
+  };
+
   const styles = {
     container: css({
       marginTop: '1rem',
+      marginBottom: '1rem',
       maxWidth: '600px'
     }),
     textarea: css({
       height: '160px'
     }),
-    buttonWrapper: css({
-      textAlign: 'right'
-    }),
     button: css({
       marginTop: '0.4rem',
+      marginRight: '0.4rem',
       padding: '0.5rem 2rem'
     })
   };
@@ -24,8 +38,8 @@ const ScheduleText: React.FC<{ text: string }> = (props) => {
   return (
     <Container css={styles.container}>
       <Form.Control css={styles.textarea} as="textarea" defaultValue={text} />
-      <div css={styles.buttonWrapper}>
-        <Button css={styles.button} variant="outline-primary">
+      <div>
+        <Button css={styles.button} variant="primary" onClick={copyScheduleText}>
           コピー
         </Button>
       </div>
