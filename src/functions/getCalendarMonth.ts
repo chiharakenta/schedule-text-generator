@@ -1,8 +1,9 @@
 import { CalendarDate, CalendarMonth } from 'types/Calendar';
+import JapaneseHolidays from 'japanese-holidays';
 
 const isSunday = (date: Date) => date.getDay() === 0;
 const isSaturday = (date: Date) => date.getDay() === 6;
-const isHoliday = (date: Date) => date.getDay() === 6 || date.getDay() === 0;
+const isHoliday = (date: Date) => isSaturday(date) || isSunday(date) || Boolean(JapaneseHolidays.isHoliday(date));
 
 const getCalendarMonth = (today: Date) => {
   const calendarMonth: CalendarMonth = {
