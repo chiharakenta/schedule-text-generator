@@ -27,7 +27,13 @@ const Date: React.FC<{ date: CalendarDate; onClick: React.MouseEventHandler<HTML
 
   return (
     <td css={[style.base, date.active ? style.activeDate : '']}>
-      <button css={style.button} data-timestamp={date.date.getTime()} onClick={onClick} type="button">
+      <button
+        css={style.button}
+        data-timestamp={date.date.getTime()}
+        onClick={onClick}
+        type="button"
+        disabled={date.disabled}
+      >
         {date.date.getDate()}
       </button>
     </td>
