@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { css } from '@emotion/react';
-import Week from './Week';
-import getCalendarMonth from '../../functions/getCalendarMonth';
-import { CalendarMonth } from '../../types/Calendar';
+import Week from 'components/Calendar/Week';
+import getCalendarMonth from 'functions/getCalendarMonth';
+import { CalendarMonth } from 'types/Calendar';
 
 type Props = {
   createSchedule: (date: Date) => void;

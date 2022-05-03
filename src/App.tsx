@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Calendar from './components/Calendar/index';
+import Calendar from 'components/Calendar/index';
+import ScheduleText from 'components/ScheduleText';
 
 const App: React.FC = () => {
   const [schedules, setSchedules] = useState<Date[]>([]);
