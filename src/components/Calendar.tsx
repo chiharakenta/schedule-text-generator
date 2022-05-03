@@ -5,7 +5,13 @@ import Week from './Week';
 import getCalendarMonth from '../functions/getCalendarMonth';
 import { CalendarMonth } from '../types/CalendarMonth';
 
-const Calendar: React.FC = () => {
+type Props = {
+  createSchedule: (date: Date) => void;
+  deleteSchedule: (date: Date) => void;
+};
+
+const Calendar: React.FC<Props> = (props) => {
+  const { createSchedule, deleteSchedule } = props;
   const currentMonth = getCalendarMonth(new Date());
   const [calendar, setCalendar] = useState(currentMonth);
 
@@ -32,7 +38,13 @@ const Calendar: React.FC = () => {
       for (let j = 0; j < newCalendar.weeks[i].length; j++) {
         const dateTime = newCalendar.weeks[i][j].date.getTime();
         if (String(dateTime) === event.currentTarget.dataset.timestamp) {
-          newCalendar.weeks[i][j].active = !newCalendar.weeks[i][j].active;
+          if (newCalendar.weeks[i][j].active) {
+            newCalendar.weeks[i][j].active = false;
+            deleteSchedule(newCalendar.weeks[i][j].date);
+          } else {
+            newCalendar.weeks[i][j].active = true;
+            createSchedule(newCalendar.weeks[i][j].date);
+          }
           setCalendar(newCalendar);
           return;
         }
