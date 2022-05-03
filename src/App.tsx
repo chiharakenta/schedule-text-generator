@@ -49,7 +49,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Calendar createSchedule={createSchedule} deleteSchedule={deleteSchedule} />
-      <textarea defaultValue={scheduleText} />
+      <ScheduleText text={scheduleText} />
     </div>
   );
 };
