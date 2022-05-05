@@ -1,3 +1,8 @@
+export type CalendarTime = {
+  time: number;
+  active: boolean;
+};
+
 export type CalendarDate = {
   date: Date;
   active: boolean;

@@ -1,24 +1,26 @@
 import { CalendarDate, CalendarMonth } from 'types/Calendar';
 import JapaneseHolidays from 'japanese-holidays';
+import { Schedule } from 'types/Schedule';
 
 const isSunday = (date: Date) => date.getDay() === 0;
 const isSaturday = (date: Date) => date.getDay() === 6;
 const isHoliday = (date: Date) => isSaturday(date) || isSunday(date) || Boolean(JapaneseHolidays.isHoliday(date));
-const isSelected = (currentDate: Date, schedules: Date[]) => {
+const isSelected = (currentDate: Date, schedules: Schedule[]) => {
   const haveSchedules = Boolean(schedules.length);
   if (!haveSchedules) return false;
   const selectedDates = schedules.filter(
-    (schedule) => schedule.getFullYear() === currentDate.getFullYear() && schedule.getMonth() === currentDate.getMonth()
+    (schedule) =>
+      schedule.date.getFullYear() === currentDate.getFullYear() && schedule.date.getMonth() === currentDate.getMonth()
   );
   for (let i = 0; i < selectedDates.length; i++) {
-    if (selectedDates[i].getTime() === currentDate.getTime()) {
+    if (selectedDates[i].date.getTime() === currentDate.getTime()) {
       return true;
     }
   }
   return false;
 };
 
-const getCalendarMonth = (today: Date, schedules: Date[] = []) => {
+const getCalendarMonth = (today: Date, schedules: Schedule[] = []) => {
   const calendarMonth: CalendarMonth = {
     year: today.getFullYear(),
     month: today.getMonth(),
