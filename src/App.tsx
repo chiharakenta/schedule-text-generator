@@ -84,7 +84,12 @@ const App: React.FC = () => {
     schedules.forEach((schedule) => {
       const date = `${schedule.date.getFullYear()}/${schedule.date.getMonth() + 1}/${schedule.date.getDate()}`;
       const day = `(${week[schedule.date.getDay()]})`;
-      text += `${date}${day}\n`;
+      if (option === 'date') text += `${date}${day}\n`;
+      if (option === 'startTime') {
+        schedule.times.forEach((time) => {
+          text += `${date}${day} ${time}:00~\n`;
+        });
+      }
     });
     setScheduleText(text);
   };
@@ -103,7 +108,7 @@ const App: React.FC = () => {
     return -1;
   };
 
-  useEffect(createScheduleText, [schedules]);
+  useEffect(createScheduleText, [schedules, option]);
 
   return (
     <div className="App">
