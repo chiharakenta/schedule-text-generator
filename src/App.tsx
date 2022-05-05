@@ -4,12 +4,14 @@ import { Alert, Container } from 'react-bootstrap';
 
 import Calendar from 'components/Calendar/index';
 import ScheduleText from 'components/ScheduleText';
+import Option from 'components/Option/index';
 import { css } from '@emotion/react';
 
 const App: React.FC = () => {
   const [schedules, setSchedules] = useState<Date[]>([]);
   const [scheduleText, setScheduleText] = useState('');
   const [show, setShow] = useState(false);
+  const [option, setOption] = useState('date');
 
   const createSchedule = (date: Date) => {
     const newSchedules = schedules.slice();
@@ -59,7 +61,8 @@ const App: React.FC = () => {
           調整さんの「日にち候補」に貼り付けてください。
         </Container>
       </Alert>
-      <Calendar schedules={schedules} createSchedule={createSchedule} deleteSchedule={deleteSchedule} />
+      <Calendar schedules={schedules} option={option} createSchedule={createSchedule} deleteSchedule={deleteSchedule} />
+      <Option selected={option} setOption={setOption} />
       <ScheduleText text={scheduleText} setAlertShow={setShow} />
     </div>
   );
