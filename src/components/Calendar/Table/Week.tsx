@@ -1,7 +1,7 @@
 import React from 'react';
 import { CalendarDate } from 'types/Calendar';
 
-import Date from 'components/Calendar/Date';
+import Date from 'components/Calendar/Table/Date';
 
 const Week: React.FC<{ week: CalendarDate[]; onClick: React.MouseEventHandler<HTMLButtonElement> }> = (props) => {
   const { week, onClick } = props;

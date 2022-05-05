@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Container, Modal } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { css } from '@emotion/react';
-import Week from 'components/Calendar/Week';
 import getCalendarMonth from 'functions/getCalendarMonth';
 import { CalendarMonth } from 'types/Calendar';
+import Title from 'components/Calendar/Title';
+import SwitchingMonthButtons from 'components/Calendar/SwitchingMonthButtons';
+import Table from 'components/Calendar/Table';
+import Time from 'components/Calendar/Time';
 
 type Props = {
   schedules: Date[];
@@ -16,8 +19,8 @@ const Calendar: React.FC<Props> = (props) => {
   const { schedules, option, createSchedule, deleteSchedule } = props;
   const currentMonth = getCalendarMonth(new Date());
   const [calendar, setCalendar] = useState(currentMonth);
-  const [show, setShow] = useState(false);
 
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -64,74 +67,20 @@ const Calendar: React.FC<Props> = (props) => {
     }
   };
 
-  const weekKey = `${String(calendar.year)}-${String(calendar.month)}-`;
-
   const styles = {
-    container: {
+    container: css({
       marginRight: 'auto',
       marginLeft: 'auto',
       maxWidth: '600px'
-    },
-    buttonWrapper: css({
-      display: 'flex',
-      justifyContent: 'space-between',
-      paddingBottom: '1rem'
-    }),
-    button: css({
-      paddingLeft: '1.5rem',
-      paddingRight: '1.5rem'
-    }),
-    table: css({
-      width: '100%',
-      textAlign: 'center',
-      outline: '2px solid #ddd',
-      borderCollapse: 'collapse'
-    }),
-    tableHeading: css({
-      outline: '1px solid #dddddd'
     })
   };
 
   return (
     <Container id="calendar" css={styles.container}>
-      <h1>
-        {calendar.year}年 {calendar.month + 1}月
-      </h1>
-      <div css={styles.buttonWrapper}>
-        <Button variant="outline-secondary" css={styles.button} type="button" onClick={getPrevCalendar}>
-          &lt;
-        </Button>
-        <Button variant="outline-secondary" css={styles.button} type="button" onClick={getNextCalendar}>
-          &gt;
-        </Button>
-      </div>
-      <table css={styles.table}>
-        <tbody>
-          <tr>
-            <th css={styles.tableHeading}>日</th>
-            <th css={styles.tableHeading}>月</th>
-            <th css={styles.tableHeading}>火</th>
-            <th css={styles.tableHeading}>水</th>
-            <th css={styles.tableHeading}>木</th>
-            <th css={styles.tableHeading}>金</th>
-            <th css={styles.tableHeading}>土</th>
-          </tr>
-          {calendar.weeks.map((week, index) => (
-            <Week key={weekKey + String(index)} week={week} onClick={selectDate} />
-          ))}
-        </tbody>
-      </table>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>タイトル</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>こんにちは</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            閉じる
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Title title={`${calendar.year}年 ${calendar.month + 1}月`} />
+      <SwitchingMonthButtons getPrevCalendar={getPrevCalendar} getNextCalendar={getNextCalendar} />
+      <Table calendar={calendar} selectDate={selectDate} />
+      <Time show={show} handleClose={handleClose} />
     </Container>
   );
 };
