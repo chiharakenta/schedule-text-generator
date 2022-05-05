@@ -8,7 +8,7 @@ const isHoliday = (date: Date) => isSaturday(date) || isSunday(date) || Boolean(
 const isSelected = (currentDate: Date, schedules: Schedule[]) => {
   const haveSchedules = Boolean(schedules.length);
   if (!haveSchedules) return false;
-  const selectedDates = schedules.filter(
+  const selectedDates: Schedule[] = schedules.filter(
     (schedule) =>
       schedule.date.getFullYear() === currentDate.getFullYear() && schedule.date.getMonth() === currentDate.getMonth()
   );
