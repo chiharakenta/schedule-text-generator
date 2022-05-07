@@ -5,15 +5,16 @@ import Date from 'components/Calendar/Table/Date';
 
 type Props = {
   week: CalendarDate[];
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  weekIndex: number;
+  onClick: (weekIndex: number, dateIndex: number) => void;
 };
 
 const Week: React.FC<Props> = (props) => {
-  const { week, onClick } = props;
+  const { week, weekIndex, onClick } = props;
   return (
     <tr>
-      {week.map((date) => (
-        <Date key={date.date.getTime()} date={date} onClick={onClick} />
+      {week.map((date, dateIndex) => (
+        <Date key={date.date.getTime()} weekIndex={weekIndex} dateIndex={dateIndex} date={date} onClick={onClick} />
       ))}
     </tr>
   );

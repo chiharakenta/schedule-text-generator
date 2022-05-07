@@ -1,12 +1,12 @@
 import React from 'react';
 
 type Props = {
-  title: string;
+  children: string;
 };
 
 const Title: React.FC<Props> = (props) => {
-  const { title } = props;
-  return <h1>{title}</h1>;
+  const { children } = props;
+  return <h1>{children}</h1>;
 };
 
 export default Title;

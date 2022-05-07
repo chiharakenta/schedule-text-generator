@@ -5,7 +5,7 @@ import Week from 'components/Calendar/Table/Week';
 
 type Props = {
   calendar: CalendarMonth;
-  selectDate: React.MouseEventHandler<HTMLButtonElement>;
+  selectDate: (weekIndex: number, dateIndex: number) => void;
 };
 
 const Table: React.FC<Props> = (props) => {
@@ -39,6 +39,7 @@ const Table: React.FC<Props> = (props) => {
           <Week
             key={`${String(calendar.year)}-${String(calendar.month)}-${String(index)}`}
             week={week}
+            weekIndex={index}
             onClick={selectDate}
           />
         ))}

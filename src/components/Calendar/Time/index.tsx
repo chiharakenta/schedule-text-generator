@@ -40,11 +40,9 @@ const Time: React.FC<Props> = (props) => {
 
     const isActive = active === 'true';
     if (!isActive) {
-      event.currentTarget.classList.add('active');
       const scheduleIndex = timeUtils.getScheduleIndex(new Date(Number(timestamp)));
       timeUtils.addTime(scheduleIndex, Number(time));
     } else {
-      event.currentTarget.classList.remove('active');
       const scheduleIndex = timeUtils.getScheduleIndex(new Date(Number(timestamp)));
       const timeIndex = timeUtils.getTimeIndex(scheduleIndex, Number(time));
       timeUtils.removeTime(scheduleIndex, timeIndex);

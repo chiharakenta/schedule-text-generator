@@ -2,8 +2,15 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { CalendarDate } from 'types/Calendar';
 
-const Date: React.FC<{ date: CalendarDate; onClick: React.MouseEventHandler<HTMLButtonElement> }> = (props) => {
-  const { date, onClick } = props;
+type Props = {
+  weekIndex: number;
+  dateIndex: number;
+  date: CalendarDate;
+  onClick: (weekIndex: number, dateIndex: number) => void;
+};
+
+const Date: React.FC<Props> = (props) => {
+  const { weekIndex, dateIndex, date, onClick } = props;
   const styles = {
     base: css({
       color: getColor(date.disabled, date.isHoliday),
@@ -30,7 +37,7 @@ const Date: React.FC<{ date: CalendarDate; onClick: React.MouseEventHandler<HTML
       <button
         css={styles.button}
         data-timestamp={date.date.getTime()}
-        onClick={onClick}
+        onClick={() => onClick(weekIndex, dateIndex)}
         type="button"
         disabled={date.disabled}
       >
