@@ -112,13 +112,6 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Alert variant="success" show={show}>
-        <Container css={css({ maxWidth: '600px' })}>
-          スケジュールをコピーしました
-          <br />
-          調整さんの「日にち候補」に貼り付けてください。
-        </Container>
-      </Alert>
       <Calendar
         schedules={schedules}
         option={option}
@@ -127,6 +120,16 @@ const App: React.FC = () => {
         timeUtils={{ getSchedule, getScheduleIndex, getTimeIndex, addTime, removeTime }}
       />
       <Option selected={option} setOption={setOption} />
+      <Container css={css({ maxWidth: '600px' })}>
+        <Alert variant="success" show={show}>
+          スケジュールをコピーしました
+          <br />
+          <a href="https://chouseisan.com/#tab2" target="_blank" rel="noreferrer">
+            調整さんの「日にち候補」
+          </a>
+          に貼り付けてください。
+        </Alert>
+      </Container>
       <ScheduleText text={scheduleText} setAlertShow={setShow} />
     </div>
   );

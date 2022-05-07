@@ -15,6 +15,7 @@ const ScheduleText: React.FC<Props> = (props) => {
       setAlertShow(true);
       setTimeout(() => {
         window.open('https://chouseisan.com/#tab2', '_blank');
+        setAlertShow(false);
       }, 3500);
     });
   };
