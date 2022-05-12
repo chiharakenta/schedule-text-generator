@@ -1,15 +1,18 @@
 import { css } from '@emotion/react';
-import { FC, memo } from 'react';
+import { ChangeEvent, FC, memo } from 'react';
 import { Container, Form } from 'react-bootstrap';
+import { useRecoilState } from 'recoil';
+import { optionState } from 'store/optionState';
+import { Option } from 'types/Option';
 
-type Props = {
-  selected: string;
-  setOption: React.Dispatch<React.SetStateAction<string>>;
-};
+export const OptionSelectBox: FC = memo(() => {
+  const [selectedOption, setSelectedOption] = useRecoilState(optionState);
 
-export const Option: FC<Props> = memo((props: Props) => {
-  const { selected, setOption } = props;
-  const options = [
+  type OptionType = {
+    label: string;
+    value: Option;
+  };
+  const options: Array<OptionType> = [
     {
       label: '日付のみ選択',
       value: 'date'
@@ -20,16 +23,8 @@ export const Option: FC<Props> = memo((props: Props) => {
     }
   ];
 
-  const selectOption: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setOption(event.currentTarget.value);
-  };
-
-  const styles = {
-    container: css({
-      maxWidth: '600px',
-      marginTop: '1rem'
-    })
-  };
+  const onClickSelectOption = (event: ChangeEvent<HTMLInputElement> & { target: { value: Option } }) =>
+    setSelectedOption(event.target.value);
 
   return (
     <Container css={styles.container}>
@@ -41,10 +36,17 @@ export const Option: FC<Props> = memo((props: Props) => {
           name="option"
           label={option.label}
           value={option.value}
-          onChange={selectOption}
-          checked={option.value === selected}
+          onChange={onClickSelectOption}
+          checked={option.value === selectedOption}
         />
       ))}
     </Container>
   );
 });
+
+const styles = {
+  container: css({
+    maxWidth: '600px',
+    marginTop: '1rem'
+  })
+};

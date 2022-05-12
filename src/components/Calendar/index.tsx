@@ -9,12 +9,12 @@ import { Schedule } from 'types/Schedule';
 import { CalendarMonth, CalendarTime } from 'types/Calendar';
 import { getCalendarMonth } from 'functions/getCalendarMonth';
 import { getCalendarTimes } from 'functions/getCalendarTimes';
+import { useRecoilValue } from 'recoil';
+import { schedulesState } from 'store/schedulesState';
+import { useAllSchedules } from 'hooks/useAllSchedules';
+import { optionState } from 'store/optionState';
 
 type Props = {
-  schedules: Schedule[];
-  option: string;
-  createSchedule: (date: Date) => void;
-  deleteSchedule: (date: Date) => void;
   timeUtils: {
     getSchedule: (date: Date) => Schedule | null;
     getScheduleIndex: (date: Date) => number;
@@ -25,7 +25,11 @@ type Props = {
 };
 
 export const Calendar: FC<Props> = memo((props: Props) => {
-  const { schedules, option, createSchedule, deleteSchedule, timeUtils } = props;
+  const { timeUtils } = props;
+  const { createSchedule, deleteSchedule } = useAllSchedules();
+  const option = useRecoilValue(optionState);
+  const schedules = useRecoilValue(schedulesState);
+
   const currentMonth = getCalendarMonth(new Date());
   const [calendar, setCalendar] = useState(currentMonth);
 
@@ -49,18 +53,18 @@ export const Calendar: FC<Props> = memo((props: Props) => {
   };
 
   const selectDate = (weekIndex: number, dateIndex: number) => {
+    const newCalendar: CalendarMonth = {
+      year: calendar.year,
+      month: calendar.month,
+      weeks: calendar.weeks.slice()
+    };
     if (option === 'date') {
-      const newCalendar: CalendarMonth = {
-        year: calendar.year,
-        month: calendar.month,
-        weeks: calendar.weeks.slice()
-      };
       if (newCalendar.weeks[weekIndex][dateIndex].active) {
         newCalendar.weeks[weekIndex][dateIndex].active = false;
-        deleteSchedule(newCalendar.weeks[weekIndex][dateIndex].date);
+        deleteSchedule(schedules, newCalendar.weeks[weekIndex][dateIndex].date);
       } else {
         newCalendar.weeks[weekIndex][dateIndex].active = true;
-        createSchedule(newCalendar.weeks[weekIndex][dateIndex].date);
+        createSchedule(schedules, newCalendar.weeks[weekIndex][dateIndex].date);
       }
       setCalendar(newCalendar);
       return;
@@ -68,18 +72,13 @@ export const Calendar: FC<Props> = memo((props: Props) => {
 
     if (option === 'startTime') {
       const selectedDate = new Date(calendar.weeks[weekIndex][dateIndex].date.getTime());
-      const newCalendar: CalendarMonth = {
-        year: calendar.year,
-        month: calendar.month,
-        weeks: calendar.weeks.slice()
-      };
       if (newCalendar.weeks[weekIndex][dateIndex].active) {
         setDate(selectedDate);
         renderTime(selectedDate);
         handleShow();
       } else {
         newCalendar.weeks[weekIndex][dateIndex].active = true;
-        createSchedule(newCalendar.weeks[weekIndex][dateIndex].date);
+        createSchedule(schedules, newCalendar.weeks[weekIndex][dateIndex].date);
         setDate(selectedDate);
         renderTime(selectedDate);
         handleShow();
