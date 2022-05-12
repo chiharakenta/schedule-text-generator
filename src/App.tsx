@@ -22,7 +22,7 @@ export const App: React.FC = () => {
   };
 
   const deleteSchedule = (date: Date) => {
-    const newSchedules = schedules.slice();
+    const newSchedules = [...schedules];
     for (let i = 0; i < newSchedules.length; i++) {
       if (newSchedules[i].date.getTime() === date.getTime()) {
         newSchedules.splice(i, 1);
@@ -61,14 +61,14 @@ export const App: React.FC = () => {
   };
 
   const addTime = (scheduleIndex: number, time: number) => {
-    const newSchedules = schedules.slice();
+    const newSchedules = [...schedules];
     newSchedules[scheduleIndex].times.push(time);
     newSchedules[scheduleIndex].times.sort(sortTimeAscending);
     setSchedules(newSchedules);
   };
 
   const removeTime = (scheduleIndex: number, timeIndex: number) => {
-    const newSchedules = schedules.slice();
+    const newSchedules = [...schedules];
     newSchedules[scheduleIndex].times.splice(timeIndex, 1);
     newSchedules[scheduleIndex].times.sort(sortTimeAscending);
     setSchedules(newSchedules);

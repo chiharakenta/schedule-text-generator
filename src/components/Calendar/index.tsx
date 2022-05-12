@@ -115,7 +115,7 @@ export const Calendar: FC<Props> = memo((props: Props) => {
       <Title>{`${calendar.year}年 ${calendar.month + 1}月`}</Title>
       <SwitchingMonthButtons getPrevCalendar={getPrevCalendar} getNextCalendar={getNextCalendar} />
       <Table calendar={calendar} selectDate={selectDate} />
-      <Time show={show} handleClose={handleClose} date={date} times={times} timeUtils={timeUtils} />
+      <Time show={show} handleClose={handleClose} date={date} times={times} timeUtils={timeUtils} setTimes={setTimes} />
     </Container>
   );
 });

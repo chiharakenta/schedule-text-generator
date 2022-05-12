@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React, { memo } from 'react';
+import { Dispatch, SetStateAction, FC, memo, MouseEvent } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { CalendarTime } from 'types/Calendar';
 import { Schedule } from 'types/Schedule';
@@ -18,23 +18,13 @@ type Props = {
     addTime: (scheduleIndex: number, time: number) => void;
     removeTime: (scheduleIndex: number, timeIndex: number) => void;
   };
+  setTimes: Dispatch<SetStateAction<CalendarTime[]>>;
 };
 
-export const Time: React.FC<Props> = memo((props: Props) => {
-  const { show, handleClose, date, times, timeUtils } = props;
+export const Time: FC<Props> = memo((props: Props) => {
+  const { show, handleClose, date, times, timeUtils, setTimes } = props;
 
-  const styles = {
-    button: css({
-      display: 'block',
-      width: '50%',
-      minWidth: '80px',
-      marginBottom: '0.4rem',
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    })
-  };
-
-  const selectTime: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const selectTime = (event: MouseEvent<HTMLButtonElement>, timeIndex: number) => {
     const { timestamp, time, active } = event.currentTarget.dataset;
     if (typeof timestamp !== 'string' && typeof time !== 'string' && typeof active === 'string') return;
 
@@ -44,9 +34,13 @@ export const Time: React.FC<Props> = memo((props: Props) => {
       timeUtils.addTime(scheduleIndex, Number(time));
     } else {
       const scheduleIndex = timeUtils.getScheduleIndex(new Date(Number(timestamp)));
-      const timeIndex = timeUtils.getTimeIndex(scheduleIndex, Number(time));
-      timeUtils.removeTime(scheduleIndex, timeIndex);
+      const scheduleTimeIndex = timeUtils.getTimeIndex(scheduleIndex, Number(time));
+      timeUtils.removeTime(scheduleIndex, scheduleTimeIndex);
     }
+
+    const newTimes = [...times];
+    newTimes[timeIndex].active = !isActive;
+    setTimes(newTimes);
   };
 
   return (
@@ -57,7 +51,7 @@ export const Time: React.FC<Props> = memo((props: Props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {times.map((time) => (
+        {times.map((time, index) => (
           <Button
             variant="outline-primary"
             css={styles.button}
@@ -66,7 +60,7 @@ export const Time: React.FC<Props> = memo((props: Props) => {
             data-timestamp={date.getTime()}
             data-active={time.active}
             active={time.active}
-            onClick={selectTime}
+            onClick={(event) => selectTime(event, index)}
           >
             {`${time.time}:00~`}
           </Button>
@@ -80,3 +74,14 @@ export const Time: React.FC<Props> = memo((props: Props) => {
     </Modal>
   );
 });
+
+const styles = {
+  button: css({
+    display: 'block',
+    width: '50%',
+    minWidth: '80px',
+    marginBottom: '0.4rem',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  })
+};
