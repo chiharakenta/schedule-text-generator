@@ -1,12 +1,10 @@
-import React from 'react';
+import { FC, memo, ReactNode } from 'react';
 
 type Props = {
-  children: string;
+  children: ReactNode;
 };
 
-const Title: React.FC<Props> = (props) => {
+export const Title: FC<Props> = memo((props: Props) => {
   const { children } = props;
   return <h1>{children}</h1>;
-};
-
-export default Title;
+});

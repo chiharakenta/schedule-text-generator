@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import { FC, memo, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { css } from '@emotion/react';
-import getCalendarMonth from 'functions/getCalendarMonth';
-import { CalendarMonth, CalendarTime } from 'types/Calendar';
-import Title from 'components/Calendar/Title';
-import SwitchingMonthButtons from 'components/Calendar/SwitchingMonthButtons';
+import { Title } from 'components/Calendar/Title';
+import { SwitchingMonthButtons } from 'components/Calendar/SwitchingMonthButtons';
 import Table from 'components/Calendar/Table';
-import Time from 'components/Calendar/Time';
+import { Time } from 'components/Calendar/Time';
 import { Schedule } from 'types/Schedule';
-import getCalendarTimes from 'functions/getCalendarTimes';
+import { CalendarMonth, CalendarTime } from 'types/Calendar';
+import { getCalendarMonth } from 'functions/getCalendarMonth';
+import { getCalendarTimes } from 'functions/getCalendarTimes';
 
 type Props = {
   schedules: Schedule[];
@@ -24,7 +24,7 @@ type Props = {
   };
 };
 
-const Calendar: React.FC<Props> = (props) => {
+export const Calendar: FC<Props> = memo((props: Props) => {
   const { schedules, option, createSchedule, deleteSchedule, timeUtils } = props;
   const currentMonth = getCalendarMonth(new Date());
   const [calendar, setCalendar] = useState(currentMonth);
@@ -118,6 +118,4 @@ const Calendar: React.FC<Props> = (props) => {
       <Time show={show} handleClose={handleClose} date={date} times={times} timeUtils={timeUtils} />
     </Container>
   );
-};
-
-export default Calendar;
+});

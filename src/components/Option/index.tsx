@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React from 'react';
+import { FC, memo } from 'react';
 import { Container, Form } from 'react-bootstrap';
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
   setOption: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const Option: React.FC<Props> = (props) => {
+export const Option: FC<Props> = memo((props: Props) => {
   const { selected, setOption } = props;
   const options = [
     {
@@ -47,6 +47,4 @@ const Option: React.FC<Props> = (props) => {
       ))}
     </Container>
   );
-};
-
-export default Option;
+});

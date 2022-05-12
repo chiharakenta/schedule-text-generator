@@ -20,7 +20,7 @@ const isSelected = (currentDate: Date, schedules: Schedule[]) => {
   return false;
 };
 
-const getCalendarMonth = (today: Date, schedules: Schedule[] = []) => {
+export const getCalendarMonth = (today: Date, schedules: Schedule[] = []) => {
   const calendarMonth: CalendarMonth = {
     year: today.getFullYear(),
     month: today.getMonth(),
@@ -82,5 +82,3 @@ const getCalendarMonth = (today: Date, schedules: Schedule[] = []) => {
 
   return calendarMonth;
 };
-
-export default getCalendarMonth;

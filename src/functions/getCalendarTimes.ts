@@ -1,4 +1,4 @@
-const getCalendarTimes = () => {
+export const getCalendarTimes = () => {
   const times = [];
   for (let i = 1; i <= 24; i++) {
     times.push({
@@ -8,5 +8,3 @@ const getCalendarTimes = () => {
   }
   return times;
 };
-
-export default getCalendarTimes;

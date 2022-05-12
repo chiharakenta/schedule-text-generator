@@ -1,14 +1,14 @@
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { memo } from 'react';
 import { CalendarMonth } from 'types/Calendar';
-import Week from 'components/Calendar/Table/Week';
+import { Week } from 'components/Calendar/Table/Week';
 
 type Props = {
   calendar: CalendarMonth;
   selectDate: (weekIndex: number, dateIndex: number) => void;
 };
 
-const Table: React.FC<Props> = (props) => {
+const Table: React.FC<Props> = memo((props: Props) => {
   const { calendar, selectDate } = props;
 
   const styles = {
@@ -46,6 +46,6 @@ const Table: React.FC<Props> = (props) => {
       </tbody>
     </table>
   );
-};
+});
 
 export default Table;

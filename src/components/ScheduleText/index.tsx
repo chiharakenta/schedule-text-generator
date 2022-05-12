@@ -1,13 +1,13 @@
 import { css } from '@emotion/react';
-import React from 'react';
+import { Dispatch, FC, memo, SetStateAction } from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 
 type Props = {
   text: string;
-  setAlertShow: React.Dispatch<React.SetStateAction<boolean>>;
+  setAlertShow: Dispatch<SetStateAction<boolean>>;
 };
 
-const ScheduleText: React.FC<Props> = (props) => {
+export const ScheduleText: FC<Props> = memo((props: Props) => {
   const { text, setAlertShow } = props;
 
   const copyScheduleText: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -46,6 +46,4 @@ const ScheduleText: React.FC<Props> = (props) => {
       </div>
     </Container>
   );
-};
-
-export default ScheduleText;
+});

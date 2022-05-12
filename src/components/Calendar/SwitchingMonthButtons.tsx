@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React from 'react';
+import { FC, memo } from 'react';
 import { Button } from 'react-bootstrap';
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
   getNextCalendar: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const Title: React.FC<Props> = (props) => {
+export const SwitchingMonthButtons: FC<Props> = memo((props: Props) => {
   const { getPrevCalendar, getNextCalendar } = props;
 
   const styles = {
@@ -32,6 +32,4 @@ const Title: React.FC<Props> = (props) => {
       </Button>
     </div>
   );
-};
-
-export default Title;
+});

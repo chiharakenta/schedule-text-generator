@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { memo } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { CalendarTime } from 'types/Calendar';
 import { Schedule } from 'types/Schedule';
@@ -20,7 +20,7 @@ type Props = {
   };
 };
 
-const Time: React.FC<Props> = (props) => {
+export const Time: React.FC<Props> = memo((props: Props) => {
   const { show, handleClose, date, times, timeUtils } = props;
 
   const styles = {
@@ -79,6 +79,4 @@ const Time: React.FC<Props> = (props) => {
       </Modal.Footer>
     </Modal>
   );
-};
-
-export default Time;
+});

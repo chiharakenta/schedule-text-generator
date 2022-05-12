@@ -2,25 +2,21 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Alert, Container } from 'react-bootstrap';
 
-import Calendar from 'components/Calendar/index';
-import ScheduleText from 'components/ScheduleText';
-import Option from 'components/Option/index';
+import { Calendar } from 'components/Calendar/index';
+import { ScheduleText } from 'components/ScheduleText';
+import { Option } from 'components/Option/index';
 import { css } from '@emotion/react';
 
 import { Schedule } from 'types/Schedule';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [scheduleText, setScheduleText] = useState('');
   const [show, setShow] = useState(false);
   const [option, setOption] = useState('date');
 
   const createSchedule = (date: Date) => {
-    const newSchedules = schedules.slice();
-    newSchedules.push({
-      date,
-      times: []
-    });
+    const newSchedules = [...schedules, { date, times: [] }];
     newSchedules.sort(sortSchedulesAscending);
     setSchedules(newSchedules);
   };
@@ -134,5 +130,3 @@ const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;

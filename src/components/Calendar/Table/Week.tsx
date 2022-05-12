@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC, memo } from 'react';
 import { CalendarDate } from 'types/Calendar';
 
-import Date from 'components/Calendar/Table/Date';
+import { Date } from 'components/Calendar/Table/Date';
 
 type Props = {
   week: CalendarDate[];
@@ -9,7 +9,7 @@ type Props = {
   onClick: (weekIndex: number, dateIndex: number) => void;
 };
 
-const Week: React.FC<Props> = (props) => {
+export const Week: FC<Props> = memo((props: Props) => {
   const { week, weekIndex, onClick } = props;
   return (
     <tr>
@@ -18,6 +18,4 @@ const Week: React.FC<Props> = (props) => {
       ))}
     </tr>
   );
-};
-
-export default Week;
+});

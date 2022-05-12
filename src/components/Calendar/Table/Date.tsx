@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC, memo } from 'react';
 import { css } from '@emotion/react';
 import { CalendarDate } from 'types/Calendar';
 
@@ -9,7 +9,7 @@ type Props = {
   onClick: (weekIndex: number, dateIndex: number) => void;
 };
 
-const Date: React.FC<Props> = (props) => {
+export const Date: FC<Props> = memo((props: Props) => {
   const { weekIndex, dateIndex, date, onClick } = props;
   const styles = {
     base: css({
@@ -45,7 +45,7 @@ const Date: React.FC<Props> = (props) => {
       </button>
     </td>
   );
-};
+});
 
 const getColor = (disabled: boolean, isHoliday: boolean) => {
   const color = {
@@ -57,5 +57,3 @@ const getColor = (disabled: boolean, isHoliday: boolean) => {
   if (!disabled && isHoliday) return color.holiday;
   return color.normal;
 };
-
-export default Date;
