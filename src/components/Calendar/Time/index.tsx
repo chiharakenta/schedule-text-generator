@@ -54,7 +54,7 @@ export const Time: FC<Props> = memo((props: Props) => {
         {times.map((time, index) => (
           <Button
             variant="outline-primary"
-            css={styles.button}
+            css={getButtonStyle(time.active)}
             key={String(date.getTime()) + String(time.time)}
             data-time={time.time}
             data-timestamp={date.getTime()}
@@ -75,13 +75,24 @@ export const Time: FC<Props> = memo((props: Props) => {
   );
 });
 
-const styles = {
-  button: css({
+const getButtonStyle = (isActive: boolean) => {
+  const buttonColor = {
+    normal: {
+      backgroundColor: '#ffffff',
+      color: '#0d6efd'
+    },
+    active: {
+      backgroundColor: '#0d6efd',
+      color: '#ffffff'
+    }
+  };
+  return css({
     display: 'block',
     width: '50%',
     minWidth: '80px',
     marginBottom: '0.4rem',
     marginLeft: 'auto',
-    marginRight: 'auto'
-  })
+    marginRight: 'auto',
+    '&:hover': isActive ? buttonColor.active : buttonColor.normal
+  });
 };
