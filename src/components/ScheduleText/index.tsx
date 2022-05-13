@@ -1,8 +1,7 @@
 import { css } from '@emotion/react';
-import { useAllert } from 'hooks/useAllert';
-import { useSchedulesText } from 'hooks/useSchedulesText';
-import { FC, memo } from 'react';
-import { Container, Button, Form, Alert } from 'react-bootstrap';
+import { FC, memo, useState } from 'react';
+import { Container, Button, Form } from 'react-bootstrap';
+import { CopyAlert } from './CopyAlert';
 
 type Props = {
   text: string;
@@ -10,27 +9,27 @@ type Props = {
 
 export const ScheduleText: FC<Props> = memo((props: Props) => {
   const { text } = props;
-  const { show } = useAllert();
-  const { copySchedulesText } = useSchedulesText();
+  const [show, setShow] = useState(false);
 
-  const onClickCopy = () => copySchedulesText(text);
+  const onClickCopy = () => {
+    void navigator.clipboard.writeText(text).then(() => {
+      setShow(true);
+      setTimeout(() => {
+        window.open('https://chouseisan.com/#tab2', '_blank');
+        setShow(false);
+      }, 3000);
+    });
+  };
 
   return (
     <Container css={styles.container}>
+      <CopyAlert show={show} />
       <Form.Control css={styles.textarea} as="textarea" defaultValue={text} />
       <div>
         <Button css={styles.button} variant="primary" onClick={onClickCopy}>
           コピー
         </Button>
       </div>
-      <Alert variant="success" show={show}>
-        スケジュールをコピーしました
-        <br />
-        <a href="https://chouseisan.com/#tab2" target="_blank" rel="noreferrer">
-          調整さんの「日にち候補」
-        </a>
-        に貼り付けてください。
-      </Alert>
     </Container>
   );
 });

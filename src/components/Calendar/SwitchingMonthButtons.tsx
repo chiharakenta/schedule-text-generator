@@ -3,24 +3,12 @@ import { FC, memo } from 'react';
 import { Button } from 'react-bootstrap';
 
 type Props = {
-  getPrevCalendar: React.MouseEventHandler<HTMLButtonElement>;
-  getNextCalendar: React.MouseEventHandler<HTMLButtonElement>;
+  getPrevCalendar: () => void;
+  getNextCalendar: () => void;
 };
 
 export const SwitchingMonthButtons: FC<Props> = memo((props: Props) => {
   const { getPrevCalendar, getNextCalendar } = props;
-
-  const styles = {
-    buttonWrapper: css({
-      display: 'flex',
-      justifyContent: 'space-between',
-      paddingBottom: '1rem'
-    }),
-    button: css({
-      paddingLeft: '1.5rem',
-      paddingRight: '1.5rem'
-    })
-  };
 
   return (
     <div css={styles.buttonWrapper}>
@@ -33,3 +21,15 @@ export const SwitchingMonthButtons: FC<Props> = memo((props: Props) => {
     </div>
   );
 });
+
+const styles = {
+  buttonWrapper: css({
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingBottom: '1rem'
+  }),
+  button: css({
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem'
+  })
+};

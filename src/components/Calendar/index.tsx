@@ -7,12 +7,12 @@ import Table from 'components/Calendar/Table';
 import { Time } from 'components/Calendar/Time';
 import { Schedule } from 'types/Schedule';
 import { CalendarMonth, CalendarTime } from 'types/Calendar';
-import { getCalendarMonth } from 'functions/getCalendarMonth';
 import { getCalendarTimes } from 'functions/getCalendarTimes';
 import { useRecoilValue } from 'recoil';
 import { schedulesState } from 'store/schedulesState';
 import { useAllSchedules } from 'hooks/useAllSchedules';
 import { optionState } from 'store/optionState';
+import { useCalendar } from 'hooks/useCalendar';
 
 type Props = {
   timeUtils: {
@@ -30,8 +30,7 @@ export const Calendar: FC<Props> = memo((props: Props) => {
   const option = useRecoilValue(optionState);
   const schedules = useRecoilValue(schedulesState);
 
-  const currentMonth = getCalendarMonth(new Date());
-  const [calendar, setCalendar] = useState(currentMonth);
+  const { calendar, setCalendar, getPrevCalendar, getNextCalendar } = useCalendar();
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -39,18 +38,6 @@ export const Calendar: FC<Props> = memo((props: Props) => {
   const handleShow = () => setShow(true);
   const initialTimes: CalendarTime[] = getCalendarTimes();
   const [times, setTimes] = useState(initialTimes);
-
-  const getPrevCalendar: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const prevMonthFirstDate = new Date(calendar.year, calendar.month - 1, 1);
-    const prevCalendar = getCalendarMonth(prevMonthFirstDate, schedules);
-    setCalendar(prevCalendar);
-  };
-
-  const getNextCalendar: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const nextMonthFirstDate = new Date(calendar.year, calendar.month + 1, 1);
-    const nextCalendar = getCalendarMonth(nextMonthFirstDate, schedules);
-    setCalendar(nextCalendar);
-  };
 
   const selectDate = (weekIndex: number, dateIndex: number) => {
     const newCalendar: CalendarMonth = {
@@ -101,20 +88,23 @@ export const Calendar: FC<Props> = memo((props: Props) => {
     setTimes(newTimes);
   };
 
-  const styles = {
-    container: css({
-      marginRight: 'auto',
-      marginLeft: 'auto',
-      maxWidth: '600px'
-    })
-  };
-
   return (
     <Container id="calendar" css={styles.container}>
       <Title>{`${calendar.year}年 ${calendar.month + 1}月`}</Title>
-      <SwitchingMonthButtons getPrevCalendar={getPrevCalendar} getNextCalendar={getNextCalendar} />
+      <SwitchingMonthButtons
+        getPrevCalendar={() => getPrevCalendar(schedules)}
+        getNextCalendar={() => getNextCalendar(schedules)}
+      />
       <Table calendar={calendar} selectDate={selectDate} />
       <Time show={show} handleClose={handleClose} date={date} times={times} timeUtils={timeUtils} setTimes={setTimes} />
     </Container>
   );
 });
+
+const styles = {
+  container: css({
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    maxWidth: '600px'
+  })
+};
