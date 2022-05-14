@@ -1,16 +1,20 @@
 import { FC, memo } from 'react';
 import { css } from '@emotion/react';
 import { CalendarDate } from 'types/Calendar';
+import { useCalendarDate } from 'hooks/useCalendarDate';
+import { useRecoilValue } from 'recoil';
+import { schedulesState } from 'store/schedulesState';
 
 type Props = {
   weekIndex: number;
   dateIndex: number;
   date: CalendarDate;
-  onClick: (weekIndex: number, dateIndex: number) => void;
 };
 
 export const Date: FC<Props> = memo((props: Props) => {
-  const { weekIndex, dateIndex, date, onClick } = props;
+  const { weekIndex, dateIndex, date } = props;
+  const schedules = useRecoilValue(schedulesState);
+  const { selectDate } = useCalendarDate();
   const styles = {
     base: css({
       color: getColor(date.disabled, date.isHoliday),
@@ -37,7 +41,7 @@ export const Date: FC<Props> = memo((props: Props) => {
       <button
         css={styles.button}
         data-timestamp={date.date.getTime()}
-        onClick={() => onClick(weekIndex, dateIndex)}
+        onClick={() => selectDate(schedules, weekIndex, dateIndex)}
         type="button"
         disabled={date.disabled}
       >

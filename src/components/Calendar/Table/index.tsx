@@ -5,23 +5,10 @@ import { Week } from 'components/Calendar/Table/Week';
 
 type Props = {
   calendar: CalendarMonth;
-  selectDate: (weekIndex: number, dateIndex: number) => void;
 };
 
-const Table: React.FC<Props> = memo((props: Props) => {
-  const { calendar, selectDate } = props;
-
-  const styles = {
-    table: css({
-      width: '100%',
-      textAlign: 'center',
-      outline: '2px solid #ddd',
-      borderCollapse: 'collapse'
-    }),
-    tableHeading: css({
-      outline: '1px solid #dddddd'
-    })
-  };
+export const Table: React.FC<Props> = memo((props: Props) => {
+  const { calendar } = props;
 
   return (
     <table css={styles.table}>
@@ -40,12 +27,20 @@ const Table: React.FC<Props> = memo((props: Props) => {
             key={`${String(calendar.year)}-${String(calendar.month)}-${String(index)}`}
             week={week}
             weekIndex={index}
-            onClick={selectDate}
           />
         ))}
       </tbody>
     </table>
   );
 });
-
-export default Table;
+const styles = {
+  table: css({
+    width: '100%',
+    textAlign: 'center',
+    outline: '2px solid #ddd',
+    borderCollapse: 'collapse'
+  }),
+  tableHeading: css({
+    outline: '1px solid #dddddd'
+  })
+};
