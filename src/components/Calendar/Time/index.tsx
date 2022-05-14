@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
-import { Dispatch, SetStateAction, FC, memo, MouseEvent } from 'react';
+import { useCalendarTime } from 'hooks/useCalendarTime';
+import { FC, memo } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import { useRecoilValue } from 'recoil';
+import { schedulesState } from 'store/schedulesState';
 import { CalendarTime } from 'types/Calendar';
-import { Schedule } from 'types/Schedule';
 
 const week = ['日', '月', '火', '水', '木', '金', '土'];
 
@@ -11,37 +13,12 @@ type Props = {
   handleClose: () => void;
   date: Date;
   times: CalendarTime[];
-  timeUtils: {
-    getSchedule: (date: Date) => Schedule | null;
-    getScheduleIndex: (date: Date) => number;
-    getTimeIndex: (scheduleIndex: number, time: number) => number;
-    addTime: (scheduleIndex: number, time: number) => void;
-    removeTime: (scheduleIndex: number, timeIndex: number) => void;
-  };
-  setTimes: Dispatch<SetStateAction<CalendarTime[]>>;
 };
 
 export const Time: FC<Props> = memo((props: Props) => {
-  const { show, handleClose, date, times, timeUtils, setTimes } = props;
-
-  const selectTime = (event: MouseEvent<HTMLButtonElement>, timeIndex: number) => {
-    const { timestamp, time, active } = event.currentTarget.dataset;
-    if (typeof timestamp !== 'string' && typeof time !== 'string' && typeof active === 'string') return;
-
-    const isActive = active === 'true';
-    if (!isActive) {
-      const scheduleIndex = timeUtils.getScheduleIndex(new Date(Number(timestamp)));
-      timeUtils.addTime(scheduleIndex, Number(time));
-    } else {
-      const scheduleIndex = timeUtils.getScheduleIndex(new Date(Number(timestamp)));
-      const scheduleTimeIndex = timeUtils.getTimeIndex(scheduleIndex, Number(time));
-      timeUtils.removeTime(scheduleIndex, scheduleTimeIndex);
-    }
-
-    const newTimes = [...times];
-    newTimes[timeIndex].active = !isActive;
-    setTimes(newTimes);
-  };
+  const { show, handleClose, date, times } = props;
+  const schedules = useRecoilValue(schedulesState);
+  const { selectTime } = useCalendarTime();
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -60,7 +37,7 @@ export const Time: FC<Props> = memo((props: Props) => {
             data-timestamp={date.getTime()}
             data-active={time.active}
             active={time.active}
-            onClick={(event) => selectTime(event, index)}
+            onClick={(event) => selectTime(event, schedules, index)}
           >
             {`${time.time}:00~`}
           </Button>

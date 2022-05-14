@@ -5,6 +5,11 @@ import { Schedule } from 'types/Schedule';
 export const useAllSchedules = () => {
   const setSchedules = useSetRecoilState(schedulesState);
 
+  const getSchedule = (schedules: Array<Schedule>, date: Date) => {
+    const searchedSchedule = schedules.find((schedule) => schedule.date.getTime() === date.getTime());
+    return searchedSchedule;
+  };
+
   const createSchedule = (schedules: Array<Schedule>, date: Date) => {
     const newSchedules = [...schedules, { date, times: [] }];
     newSchedules.sort(sortSchedulesAscending);
@@ -30,5 +35,5 @@ export const useAllSchedules = () => {
     return -1;
   };
 
-  return { setSchedules, createSchedule, deleteSchedule };
+  return { getSchedule, setSchedules, createSchedule, deleteSchedule };
 };

@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { calendarState } from 'store/calendarState';
+import { useRecoilState } from 'recoil';
 import { getCalendarMonth } from 'functions/getCalendarMonth';
-import { CalendarMonth } from 'types/Calendar';
 import { Schedule } from 'types/Schedule';
 
 export const useCalendar = () => {
-  const [calendar, setCalendar] = useState<CalendarMonth>(getCalendarMonth(new Date()));
+  const [calendar, setCalendar] = useRecoilState(calendarState);
 
   const getPrevCalendar = (schedules: Array<Schedule>) => {
     const prevMonthFirstDate = new Date(calendar.year, calendar.month - 1, 1);
