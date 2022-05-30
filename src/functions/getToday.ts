@@ -1,7 +1,7 @@
 export const getToday = () => {
   const today = new Date();
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
-  return today;
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth();
+  const todayDate = today.getDate();
+  return new Date(todayYear, todayMonth, todayDate);
 };

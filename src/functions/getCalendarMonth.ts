@@ -1,10 +1,12 @@
 import { CalendarDate, CalendarMonth } from 'types/Calendar';
 import JapaneseHolidays from 'japanese-holidays';
 import { Schedule } from 'types/Schedule';
+import { getToday } from 'functions/getToday';
 
 const isSunday = (date: Date) => date.getDay() === 0;
 const isSaturday = (date: Date) => date.getDay() === 6;
 const isHoliday = (date: Date) => isSaturday(date) || isSunday(date) || Boolean(JapaneseHolidays.isHoliday(date));
+const afterToday = (currentDate: Date) => currentDate.getTime() >= getToday().getTime();
 const isSelected = (currentDate: Date, schedules: Schedule[]) => {
   const haveSchedules = Boolean(schedules.length);
   if (!haveSchedules) return false;
@@ -38,7 +40,7 @@ export const getCalendarMonth = (today: Date, schedules: Schedule[] = []) => {
     calendarDates.push({
       date: currentDate,
       active: isSelected(currentDate, schedules),
-      disabled: false,
+      disabled: !afterToday(currentDate),
       isHoliday: isHoliday(currentDate)
     });
   }
