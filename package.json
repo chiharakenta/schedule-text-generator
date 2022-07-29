@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "homepage": "./",
   "private": true,
+  "volta": {
+    "node": "16.14.2",
+    "npm": "8.11.0"
+  },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
